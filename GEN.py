@@ -1,3 +1,4 @@
+# Import necessary modules
 import random
 import string
 from flask import Flask, request, render_template
