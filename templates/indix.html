@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python with Flask Password Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #aba4a4dc;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #56c2b4f8;
+            color: rgb(205, 85, 85);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Generate a Password</h2>
+
+<form method="POST">
+    <label>Letters:</label>
+    <input type="number" name="letters" required><br>
+
+    <label>Symbols:</label>
+    <input type="number" name="symbols" required><br>
+
+    <label>Numbers:</label>
+    <input type="number" name="numbers" required><br>
+
+    <button type="submit">Generate</button>
+</form>
+
+{% if password %}
+<div class="result">
+    <p><strong>Your password:</strong> {{ password }}</p>
+</div>
+{% endif %}
+
+</body>
+</html>
