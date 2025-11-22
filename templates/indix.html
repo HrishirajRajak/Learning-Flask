@@ -1,55 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Python with Flask Password Generator</title>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Generator</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <style>
+        /* ---------- Global Styling ---------- */
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #aba4a4dc;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Poppins", sans-serif;
+            background: radial-gradient(circle at top, #4a90e2, #1c2b3a);
+            color: #fff;
+            overflow: hidden;
         }
+
+        /* Floating Glow Orbs */
+        .orb {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            filter: blur(90px);
+            animation: float 6s ease-in-out infinite alternate;
+        }
+        .orb:nth-child(1) { top: 5%; left: 10%; }
+        .orb:nth-child(2) { bottom: 5%; right: 10%; animation-delay: 2s; }
+
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(40px); }
+        }
+
+        /* ---------- Card ---------- */
+        .container {
+            width: 420px;
+            padding: 45px 40px;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+            border: 1.2px solid rgba(255, 255, 255, 0.25);
+            animation: fadeIn 0.8s ease;
+            z-index: 10;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- Heading ---------- */
+        h2 {
+            font-size: 34px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(#ffffff, #c7e3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sub {
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.85;
+            margin-bottom: 28px;
+        }
+
+        /* ---------- Labels ---------- */
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 18px;
+            display: block;
+            opacity: 0.9;
+        }
+
+        /* ---------- Inputs ---------- */
         input {
-            padding: 10px;
-            margin: 5px;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px;
-            background-color: #56c2b4f8;
-            color: rgb(205, 85, 85);
+            width: 100%;
+            padding: 13px;
+            margin-top: 7px;
+            font-size: 15px;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: 0.25s;
         }
+
+        input:focus {
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+            transform: scale(1.02);
+        }
+
+        /* ---------- Button ---------- */
+        button {
+            margin-top: 32px;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #d7e9ff);
+            color: #0f2d47;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            box-shadow: 0 12px 30px rgba(255, 255, 255, 0.45);
+            transform: translateY(-4px);
+        }
+
+        /* ---------- Result Box ---------- */
         .result {
-            margin-top: 20px;
-            font-size: 22px;
-            color: #333;
+            margin-top: 28px;
+            padding: 17px;
+            text-align: center;
+            font-size: 21px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.32);
+            border-radius: 16px;
+            word-wrap: break-word;
+            color: #012a46;
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.6); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
+
 <body>
 
-<h2>Generate a Password</h2>
+<div class="orb"></div>
+<div class="orb"></div>
 
-<form method="POST">
-    <label>Letters:</label>
-    <input type="number" name="letters" required><br>
+<div class="container">
+    <h2>🔐 Password Generator</h2>
+    <div class="sub">Create secure, high-strength passwords instantly</div>
 
-    <label>Symbols:</label>
-    <input type="number" name="symbols" required><br>
+    <form method="POST">
+        <label>Number of Letters:</label>
+        <input type="number" name="letters" min="0" max="9" required>
 
-    <label>Numbers:</label>
-    <input type="number" name="numbers" required><br>
+        <label>Number of Symbols:</label>
+        <input type="number" name="symbols" min="0" max="9" required>
 
-    <button type="submit">Generate</button>
-</form>
+        <label>Number of Numbers:</label>
+        <input type="number" name="numbers" min="0" max="9" required>
 
-{% if password %}
-<div class="result">
-    <p><strong>Your password:</strong> {{ password }}</p>
+        <button type="submit">Generate Password</button>
+    </form>
+
+    {% if password %}
+    <div class="result">{{ password }}</div>
+    {% endif %}
 </div>
-{% endif %}
 
 </body>
 </html>
